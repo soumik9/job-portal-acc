@@ -34,11 +34,12 @@ const userSchema = mongoose.Schema({
     },
     role: {
         type: String,
-        required: [true, 'Role filed is required'],
+        default: 'candidate',
         enum: {
             values: ['admin', 'hr', 'candidate'],
             message: "role value can not be {VALUE}, must be admin/hr/candidate"
         }
+        
     },
 }, { timestamps: true });
 
