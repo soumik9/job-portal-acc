@@ -4,8 +4,8 @@ const router = express.Router();
 const JobController = require('../controllers/jobController');
 
 //routes
-router.get('/jobs', JobController.index);
-router.post('/manager/jobs', JobController.create);
+router.post('/jobs', JobController.create);
+router.get('/manager/jobs', JobController.index);
 
 // router.get('/tour/cheapest', JobController.cheapest);
 // router.get('/tour/trending', JobController.trending);

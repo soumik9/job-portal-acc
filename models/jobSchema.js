@@ -18,8 +18,8 @@ const jobSchema = mongoose.Schema({
         required: [true, 'Location field is required'] 
     },
     deadline: { 
-        type: String, 
-        required: [true, 'deadline field is required'] 
+        type: Date, 
+        required: [true, 'deadline field is required']
     },
     salaryRange: { 
         type: String, 
