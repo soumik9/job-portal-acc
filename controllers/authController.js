@@ -22,7 +22,7 @@ const login = async (req, res) => {
     if(!email || !password) return res.status(500).send({ message: 'Credential mismatch!', success: false });
 
     // checking is user registred
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email });
     if(!user) return res.status(404).send({ message: 'User not found!', success: false });
 
     // comparing password
@@ -30,14 +30,22 @@ const login = async (req, res) => {
     if(!isPasswordValid) return res.status(403).send({ message: 'Password not matched!', success: false });
 
     // token
-    const token = generateToken.generateToken(user);
+    const token = generateToken(user);
 
     const { password: pwd, ...others } = user.toObject();
     res.status(200).send({ data:{ user: others, token }, message: 'Successfully logged!', success: true });
   } catch (error) {
-    console.log(error);
     res.status(500).send({ error: error.message, message: 'Server side error', success: false });
   }
 }
 
-module.exports = { signup, login }
+const profile = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user?.email });
+    res.status(200).send({data: user, message: 'Successfully get user data!', success: true });
+  } catch (error) {
+    res.status(500).send({ error: error.message, message: 'Server side error', success: false });
+  }
+}
+
+module.exports = { signup, login, profile }
