@@ -3,9 +3,13 @@ const router = express.Router();
 
 const JobController = require('../controllers/jobController');
 
+const verifyLogin = require("../middleware/verifyLogin");
+const verifyRole = require("../middleware/verifyRole");
+
 //routes
-router.post('/jobs', JobController.create);
-router.get('/manager/jobs', JobController.index);
+router.post('/jobs', verifyLogin, verifyRole('hr'), JobController.create);
+router.get('/:manager/jobs', verifyLogin, verifyRole('hr'), JobController.getManagerSpecificJobs);
+router.patch('/jobs/:id', verifyLogin, verifyRole('hr'), JobController.update);
 
 // router.get('/tour/cheapest', JobController.cheapest);
 // router.get('/tour/trending', JobController.trending);

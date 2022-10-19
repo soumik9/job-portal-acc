@@ -6,12 +6,20 @@ const Job = require('../models/jobSchema');
 
 const index = async (req, res) => {
     try {
-        const findUser = await User.findOne({ email: req.body.email });
-        if (findUser) return res.status(500).send({ message: 'Already exists', success: false });
+        const jobs = await Job.find();
+        res.send({ datas: jobs, message: 'Successfully loaded data', success: true });
+    } catch (error) {
+        res.status(500).send({ error: error.message, message: 'Server side error', success: false });
+    }
+}
 
-        const user = new User(req.body);
-        await user.save();
-        res.send({ user, message: 'Successfully created user', success: true });
+const getManagerSpecificJobs = async (req, res) => {
+    try {
+        const { manager } = req.params;
+
+        // finding user
+        const findJobs = await Job.find({ createdBy: manager });
+        res.send({ datas: findJobs, message: 'Successfully loaded data', success: true });
     } catch (error) {
         res.status(500).send({ error: error.message, message: 'Server side error', success: false });
     }
@@ -35,4 +43,23 @@ const create = async (req, res) => {
     }
 }
 
-module.exports = { index, create }
+const update = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const verifyJob = await Job.findOne({ _id: id });
+
+        if (!verifyJob) return res.status(404).send({ message: 'Job not exists', success: false });
+
+        const updatedData = await Job.findOneAndUpdate({ _id: id }, {
+            $set: req.body
+        }, { runValidators: true });
+
+        res.json({ message: "Job successfully updated", success: true });
+
+    } catch (error) {
+        res.status(500).send({ error: error.message, message: 'Failed to update job', success: false });
+    }
+}
+
+
+module.exports = { index, getManagerSpecificJobs, create, update }
