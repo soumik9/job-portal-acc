@@ -6,8 +6,34 @@ const Job = require('../models/jobSchema');
 
 const index = async (req, res) => {
     try {
-        const jobs = await Job.find();
-        res.send({ datas: jobs, message: 'Successfully loaded data', success: true });
+        // copying req query
+        const queryObject = { ...req.query };
+        const queries = {};
+
+        // excluding fileds
+        const excludeFileds = ['sort', 'page', 'limit'];
+        excludeFileds.forEach(filed => delete queryObject[filed]);
+
+        // sorting flexiblity
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ');
+            queries.sortBy = sortBy;
+        }
+
+        // database query
+        const jobs = await Job.find(queryObject).sort(queries.sortBy);
+        const total = jobs.length;
+        res.send({ total, message: 'Successfully loaded tours', success: true, jobs });
+    } catch (error) {
+        res.status(500).send({ error: error.message, message: 'Server side error', success: false });
+    }
+}
+
+const single = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const job = await Job.findOne({ _id: id }).populate('createdBy', '-createdJobs');
+        res.send({ message: 'Successfully loaded tours', success: true, job });
     } catch (error) {
         res.status(500).send({ error: error.message, message: 'Server side error', success: false });
     }
@@ -62,4 +88,4 @@ const update = async (req, res) => {
 }
 
 
-module.exports = { index, getManagerSpecificJobs, create, update }
+module.exports = { index, single, getManagerSpecificJobs, create, update }
