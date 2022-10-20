@@ -7,6 +7,9 @@
 * /manager/jobs [GET] ['Verify Login', 'verifyRole'] [HR role]
 * /jobs/:id [PATCH] ['Verify Login', 'verifyRole'] [HR role]
 * /jobs [GET] [Public route] [Filtering and Sorting flexiblity]
+* /manager/jobs/:id [GET] ['Verify Login', 'verifyRole'] [HR role]
+* /jobs/:id/apply [GET] [Public route]
+* /jobs/:id [GET] [Public route]
 
 ## Features
 
@@ -17,6 +20,9 @@
 * Verify accesstoken and 'hr' role to get that manager created jobs.
 * Verify accesstoken and 'hr' role to update job details.
 * Get all jobs for candidate filtering and sorting flexiblity.
+* Get specific job details with candidates and resume url.
+* Apply to a job with pdf and if deadline expired can not apply.
+* Get single job details with id.
 
 
 ## Technologies
