@@ -42,11 +42,8 @@ const single = async (req, res) => {
 
 const getManagerSpecificJobs = async (req, res) => {
     try {
-        const { manager } = req.params;
-
-        // finding user
-        const findJobs = await Job.find({ createdBy: manager });
-        res.send({ datas: findJobs, message: 'Successfully loaded data', success: true });
+        const findJobs = await Job.find({ createdBy: req.user.id });
+        res.send({ count: findJobs.length, datas: findJobs, message: 'Successfully loaded data', success: true });
     } catch (error) {
         res.status(500).send({ error: error.message, message: 'Server side error', success: false });
     }

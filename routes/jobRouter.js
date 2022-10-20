@@ -12,7 +12,7 @@ router.get('/jobs/:id', JobController.single);
 
 // hr routes
 router.post('/jobs', verifyLogin, verifyRole('hr'), JobController.create);
-router.get('/:manager/jobs', verifyLogin, verifyRole('hr'), JobController.getManagerSpecificJobs);
+router.get('/manager/jobs', verifyLogin, verifyRole('hr'), JobController.getManagerSpecificJobs);
 router.patch('/jobs/:id', verifyLogin, verifyRole('hr'), JobController.update);
 
-module.exports = router;
+module.exports = router; 
