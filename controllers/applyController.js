@@ -21,11 +21,11 @@ const apply = async (req, res) => {
         }
 
         // checking is already applied
-        const isAlreadyApplied = await Job.findOne({ "candidates": req.body.candidate });
+        const isAlreadyApplied = await Job.findOne({ "candidates": req.user.id });
         if (isAlreadyApplied) return res.status(500).send({ message: 'Already applied!', success: false });
 
         // verify candidate
-        const verifyCandidate = await User.findOne({ _id: req.body.candidate });
+        const verifyCandidate = await User.findOne({ _id: req.user.id });
         if (verifyCandidate.role !== 'candidate') return res.status(404).send({ message: 'Candidate not found!', success: false });
 
         // saving apply
@@ -48,7 +48,7 @@ const apply = async (req, res) => {
         }, { new: true })
 
         //push job id to user 
-        await User.findOneAndUpdate({ _id: req.body.candidate }, {
+        await User.findOneAndUpdate({ _id: req.user.id }, {
             $push: {
                 appliedJobs: result._id
             }
