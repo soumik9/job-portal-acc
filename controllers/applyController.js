@@ -30,7 +30,7 @@ const apply = async (req, res) => {
 
         // saving apply
         const apply = new Apply({ 
-            ...req.body, 
+            candidate: req.user.id, 
             job : id,
             resumeURL: req.protocol + '://' + req.get('host') + '/' + req.file.path 
         });
