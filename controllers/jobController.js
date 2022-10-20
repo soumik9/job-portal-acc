@@ -49,6 +49,16 @@ const getManagerSpecificJobs = async (req, res) => {
     }
 }
 
+const getManagerJobsbyId = async (req, res) => {
+    try {
+        const findJobs = await Job.find({ _id: req.params.id }).populate('candidates').populate('applyId', 'resumeURL');
+        res.send({ datas: findJobs, message: 'Successfully loaded data', success: true });
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ error: error.message, message: 'Server side error', success: false });
+    }
+}
+
 const create = async (req, res) => {
     try {
         const job = new Job(req.body);
@@ -86,4 +96,11 @@ const update = async (req, res) => {
 }
 
 
-module.exports = { index, single, getManagerSpecificJobs, create, update }
+module.exports = { 
+    index, 
+    single, 
+    getManagerSpecificJobs, 
+    getManagerJobsbyId, 
+    create, 
+    update 
+}
