@@ -24,15 +24,17 @@ const apply = async (req, res) => {
         const isAlreadyApplied = await Job.findOne({ "candidates": req.user.id });
         if (isAlreadyApplied) return res.status(500).send({ message: 'Already applied!', success: false });
 
-        // verify candidate
-        const verifyCandidate = await User.findOne({ _id: req.user.id });
-        if (verifyCandidate.role !== 'candidate') return res.status(404).send({ message: 'Candidate not found!', success: false });
+        // verify candidate role
+        if (req.user.role !== 'candidate') return res.status(404).send({ message: 'Candidate not found!', success: false });
+
+        console.log(req.file.path);
 
         // saving apply
         const apply = new Apply({ 
+            ...req.body,
             candidate: req.user.id, 
             job : id,
-            resumeURL: req.protocol + '://' + req.get('host') + '/' + req.file.path 
+            resumeURL: req.protocol + '://' + req.get('host') + '/' + req.file.path
         });
         const result = await apply.save();
 
@@ -55,6 +57,7 @@ const apply = async (req, res) => {
         }, { new: true })
         res.send({ data: result, message: 'Successfully created job', success: true });
     } catch (error) {
+        console.log(error)
         res.status(500).send({ error: error.message, message: 'Server side error', success: false });
     }
 }
