@@ -34,7 +34,7 @@ const userSchema = mongoose.Schema({
     },
     role: {
         type: String,
-        default: 'candidate',
+        required: [true, "Please confirm role"],
         enum: {
             values: ['admin', 'hr', 'candidate'],
             message: "role value can not be {VALUE}, must be admin/hr/candidate"

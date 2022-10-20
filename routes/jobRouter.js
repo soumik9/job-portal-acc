@@ -7,13 +7,13 @@ const verifyLogin = require("../middleware/verifyLogin");
 const verifyRole = require("../middleware/verifyRole");
 
 // candidate routes
-router.get('/jobs', JobController.index);
-router.get('/jobs/:id', JobController.single);
+router.get('/jobs', verifyLogin, verifyRole('admin', 'candidate'), JobController.index);
+router.get('/jobs/:id', verifyLogin, verifyRole('admin', 'candidate'), JobController.single);
 
 // hr routes
-router.post('/jobs', verifyLogin, verifyRole('hr'), JobController.create);
-router.get('/manager/jobs', verifyLogin, verifyRole('hr'), JobController.getManagerSpecificJobs);
-router.get('/manager/jobs/:id', verifyLogin, verifyRole('hr'), JobController.getManagerJobsbyId);
-router.patch('/jobs/:id', verifyLogin, verifyRole('hr'), JobController.update);
+router.post('/jobs', verifyLogin, verifyRole('admin', 'hr'), JobController.create);
+router.get('/manager/jobs', verifyLogin, verifyRole('admin', 'hr'), JobController.getManagerSpecificJobs);
+router.get('/manager/jobs/:id', verifyLogin, verifyRole('admin', 'hr'), JobController.getManagerJobsbyId);
+router.patch('/jobs/:id', verifyLogin, verifyRole('admin', 'hr'), JobController.update);
 
 module.exports = router; 

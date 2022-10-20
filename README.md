@@ -1,3 +1,7 @@
+# Job Portal
+
+Live Website [Click here](https://job-portal-tszz.onrender.com/)
+
 # Job Portal API
 
 * /user/signup [POST]
@@ -6,10 +10,10 @@
 * /jobs [POST] ['Verify Login', 'verifyRole'] [HR role]
 * /manager/jobs [GET] ['Verify Login', 'verifyRole'] [HR role]
 * /jobs/:id [PATCH] ['Verify Login', 'verifyRole'] [HR role]
-* /jobs [GET] [Public route] [Filtering and Sorting flexiblity]
+* /jobs [GET] ['Verify Login', 'verifyRole'] [Candidate role] [Filtering and Sorting flexiblity]
 * /manager/jobs/:id [GET] ['Verify Login', 'verifyRole'] [HR role]
-* /jobs/:id/apply [GET] [Public route]
-* /jobs/:id [GET] [Public route]
+* /jobs/:id/apply [GET] ['Verify Login', 'verifyRole'] [Candidate role]
+* /jobs/:id [GET] ['Verify Login', 'verifyRole'] [Candidate role]
 
 ## Features
 
@@ -23,6 +27,9 @@
 * Get specific job details with candidates and resume url.
 * Apply to a job with pdf and if deadline expired can not apply.
 * Get single job details with id.
+
+
+* All routes can be accessd by admin.
 
 
 ## Technologies
