@@ -13,7 +13,7 @@ const applySchema = mongoose.Schema({
     resumeURL: {
         type: String,
         required: [true, 'Resume required'],
-        validate: [valid.isURL, "wrong url"]
+        // validate: [valid.isURL, "wrong url"]
     },
 }, { timestamps: true });
 

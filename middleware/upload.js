@@ -1,15 +1,15 @@
-const multer = require("multer");
+const multer  = require('multer')
 const path = require("path");
 
 const storage = multer.diskStorage({
-  destination: "public/files",
+  destination: "public/files/",
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
     cb(null, uniqueSuffix + "-" + file.originalname)
   }
 })
 
-const uploader = multer({
+const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
     const supportedFile = /pdf/;
@@ -22,9 +22,9 @@ const uploader = multer({
     }
 
   },
-//   limits: {
-//     fileSize: 5000000,
-//   }
+  limits: {
+    fileSize: 5000000,
+  }
 })
 
-module.exports = uploader;
+module.exports = upload;

@@ -19,6 +19,8 @@ const connection = require("./db");
 
 // all routes
 readdirSync("./routes").map((r) => app.use("/", require(`./routes/${r}`)));
+// image preview
+app.use('/public', express.static('public'))
 
 // port listening
 const startServer = (port) => {

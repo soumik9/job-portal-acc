@@ -3,6 +3,7 @@ const Job = require('../models/jobSchema');
 
 // hr - 634e6872178f9759613f4f21 - hr@gmail.com -abcabc
 // candidate - 634e689f178f9759613f4f24 - candidate@gmail.com - abcabc
+// candidate2 - 63513fe718e882db736a5c5e - candidateTwo@gmail.com - abcabc
 
 const index = async (req, res) => {
     try {
@@ -33,7 +34,7 @@ const single = async (req, res) => {
     try {
         const { id } = req.params;
         const job = await Job.findOne({ _id: id }).populate('createdBy', '-createdJobs');
-        res.send({ message: 'Successfully loaded tours', success: true, job });
+        res.send({ message: 'Successfully loaded data', success: true, job });
     } catch (error) {
         res.status(500).send({ error: error.message, message: 'Server side error', success: false });
     }
