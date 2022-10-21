@@ -27,8 +27,6 @@ const apply = async (req, res) => {
         // verify candidate role
         if (req.user.role !== 'candidate') return res.status(404).send({ message: 'Candidate not found!', success: false });
 
-        console.log(req.file.path);
-
         // saving apply
         const apply = new Apply({ 
             ...req.body,
@@ -42,7 +40,7 @@ const apply = async (req, res) => {
         if (!result._id) return res.status(500).send({ message: 'Error', success: false });
 
         //push apply and candidate id to job 
-        await Job.findOneAndUpdate({ _id: req.body.job }, {
+        await Job.findOneAndUpdate({ _id: id }, {
             $push: {
                 candidates: result.candidate,
                 applyId: result._id
@@ -57,10 +55,8 @@ const apply = async (req, res) => {
         }, { new: true })
         res.send({ data: result, message: 'Successfully created job', success: true });
     } catch (error) {
-        console.log(error)
         res.status(500).send({ error: error.message, message: 'Server side error', success: false });
     }
 }
-
 
 module.exports = { apply }
